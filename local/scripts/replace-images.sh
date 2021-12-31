@@ -47,6 +47,7 @@ replace_image() {
   remove_existing_images $REPO_TAG
   BUILD_ARGS=$(prepare_build_args "$BUILD_ARGS_RAW")
 
+  echo "Building \"$REPO\"..."
   docker build \
     -f "$PROJECT_ROOT/$REPO/Dockerfile.local" \
     -t "$REPO_TAG" $BUILD_ARGS \
