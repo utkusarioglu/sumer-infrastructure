@@ -19,6 +19,6 @@ locals {
 
 resource "helm_release" "ingress" {
   name = "ingress"
-  chart = "${project_root}/ingress"
+  chart = "${local.project_root}/ingress"
   namespace = "services"
 }
