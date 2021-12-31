@@ -21,4 +21,5 @@ resource "helm_release" "ingress" {
   name = "ingress"
   chart = "${local.project_root}/ingress"
   namespace = "services"
+  dependency_update = true
 }
