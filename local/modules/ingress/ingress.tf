@@ -14,13 +14,11 @@ variable "secrets_id" {
 }
 
 locals {
-  repo_name = "ingress"
   project_root = "${path.root}/../.."
-  repo_path = "${local.project_root}/${local.repo_name}"
 }
 
 resource "helm_release" "ingress" {
-  name = local.repo_name
-  chart = local.repo_path
+  name = "ingress"
+  chart = "${project_root}/ingress"
   namespace = "services"
 }
