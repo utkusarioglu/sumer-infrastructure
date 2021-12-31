@@ -21,6 +21,6 @@ locals {
 
 resource "helm_release" "ingress" {
   name = local.repo_name
-  chart = "${local.repo_path}/helm"
+  chart = local.repo_path
   namespace = "services"
 }
