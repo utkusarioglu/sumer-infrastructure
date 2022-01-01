@@ -7,12 +7,12 @@ TAG="tf"
 # Removes images that have the given tag
 # @param repo and tag of the image to remove. Ex: <image>:<tag>
 remove_existing_images() {
-  REPO_TAG="$1"
-  EXISTING_IMAGES=$(docker image ls --filter "reference=$REPO_TAG" -q)
-  if [ -z "$EXISTING_IMAGES" ]
+  REPO="$1"
+  EXISTING_IMAGES=$(docker image ls --filter "reference=$REPO:$TAG" -q)
+  if [ ! -z "$EXISTING_IMAGES" ]
   then
-    echo "Removing \"$REPO_TAG\"..."
-    docker rmi $REPO_TAG --force
+    echo "Removing: $REPO:$TAG"
+    docker rmi "$REPO:$TAG" --force
   fi
 }
 
@@ -24,13 +24,13 @@ prepare_build_args() {
   BUILD_ARGS_RAW="$1"
   if [ ! -z "$BUILD_ARGS_RAW" ]
   then
-    while IFS=' ' read -ra ADDR; do
-      for arg in "${ADDR[@]}"; do
-        BUILD_ARGS="--build-arg \"$arg\" $BUILD_ARGS"
+    while IFS=' ' read -ra ARG_ARR; do
+      for ARG in "${ARG_ARR[@]}"; do
+        BUILD_ARG_PARAMS="--build-arg \"$ARG\" $BUILD_ARGS"
       done
     done <<< "$BUILD_ARGS_RAW" #1
   fi
-  echo $BUILD_ARGS
+  echo $BUILD_ARG_PARAMS
 }
 
 # Replaces the image that has the given name and tag
@@ -39,18 +39,17 @@ prepare_build_args() {
 # @param build args: args to use for building the image. See `prepare_build_args`
 #   method for details on the format
 replace_image() {
-  REPO=$1
-  TAG=$TAG
-  REPO_TAG="$1:$TAG"
+  REPO="$1"
   BUILD_ARGS_RAW="$2"
 
-  remove_existing_images $REPO_TAG
-  BUILD_ARGS=$(prepare_build_args "$BUILD_ARGS_RAW")
+  remove_existing_images $REPO
+  BUILD_ARG_PARAMS=$(prepare_build_args "$BUILD_ARGS_RAW")
 
-  echo "Building \"$REPO\"..."
+  echo "Building: $REPO:$TAG"
   docker build \
     -f "$PROJECT_ROOT/$REPO/Dockerfile.local" \
-    -t "$REPO_TAG" $BUILD_ARGS \
+    -t "$REPO:$TAG" \
+    $BUILD_ARG_PARAMS \
     $PROJECT_ROOT
 }
 
