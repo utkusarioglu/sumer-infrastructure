@@ -25,7 +25,7 @@ resource "helm_release" "kafka" {
   
   set {
     name = "kafkaReplicas"
-    value = 3
+    value = 1
   }
 
   set {
@@ -35,6 +35,6 @@ resource "helm_release" "kafka" {
 
   set {
     name = "kafkaConnectReplicas"
-    value = 0
+    value = 1
   }
 }
