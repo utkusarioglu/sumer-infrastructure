@@ -17,6 +17,7 @@ module "kafka" {
 
 module "observability" {
   source = "./modules/observability"
+  project_root = local.project_root
   # forced dependencies 
   secrets_id = module.base.secrets_release_id
   namespaces_id = module.base.namespaces_release_id

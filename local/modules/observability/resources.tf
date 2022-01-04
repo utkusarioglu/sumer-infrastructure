@@ -1,23 +1,3 @@
-provider "helm" {
-  kubernetes {
-    config_path = "~/.kube/config"
-    config_context = "docker-desktop"
-  }
-}
-
-variable "namespaces_id" {
-  type = string
-}
-
-variable "secrets_id" {
-  type = string
-}
-
-locals {
-  project_root = "${path.root}/../.."
-  namespace = "observability"
-}
-
 resource "helm_release" "grafana" {
   name = "grafana"
   chart = "grafana"
@@ -46,11 +26,19 @@ resource "helm_release" "prometheus" {
   }
 }
 
-# resource "helm_release" "jaeger" {
-#   name = "jaeger"
-#   chart = "jaeger"
-#   repository = "https://jaegertracing.github.io/helm-charts"
-#   version = "0.51.5"
-#   dependency_update = true
-#   namespace = local.namespace
-# }
+resource "helm_release" "jaeger" {
+  name = "jaeger"
+  chart = "jaeger"
+  repository = "https://jaegertracing.github.io/helm-charts"
+  version = "0.51.5"
+  dependency_update = true
+  namespace = local.namespace
+}
+
+resource "helm_release" "metrics_storage" {
+  name = "metrics-storage"
+  chart = "${var.project_root}/metrics-storage"
+  namespace = local.namespace
+  dependency_update = true
+  cleanup_on_fail = true
+}
