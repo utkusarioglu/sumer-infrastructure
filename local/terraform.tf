@@ -1,5 +1,10 @@
+locals {
+  project_root = "${path.root}/../.."
+}
+
 module "base" {
   source = "./modules/base"
+  project_root = local.project_root
 }
 
 module "kafka" {

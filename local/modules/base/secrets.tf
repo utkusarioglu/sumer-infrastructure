@@ -3,9 +3,5 @@ resource "helm_release" "secrets" {
     helm_release.namespaces
   ]
   name = "secrets"
-  chart = "${local.project_root}/secrets"
-}
-
-output "secrets_release_id" {
-  value = helm_release.secrets.id
+  chart = "${var.project_root}/secrets"
 }

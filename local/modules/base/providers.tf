@@ -4,7 +4,3 @@ provider "helm" {
     config_context = "docker-desktop"
   }
 }
-
-locals {
-  project_root = "${path.root}/../.."
-}
