@@ -33,6 +33,8 @@ module "ingress" {
 
 module "services" {
   source = "./modules/services"
-  namespaces_release_id = module.base.namespaces_release_id
-  secrets_release_id = module.base.secrets_release_id
+  project_root = local.project_root
+  # forced dependencies 
+  namespaces_id = module.base.namespaces_release_id
+  secrets_id = module.base.secrets_release_id
 }
