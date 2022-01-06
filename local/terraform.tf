@@ -23,16 +23,8 @@ module "observability" {
   namespaces_id = module.base.namespaces_release_id
 }
 
-module "ingress" {
-  source = "./modules/ingress"
-  project_root = local.project_root
-  # forced dependencies 
-  secrets_id = module.base.secrets_release_id
-  namespaces_id = module.base.namespaces_release_id
-}
-
-module "services" {
-  source = "./modules/services"
+module "api" {
+  source = "./modules/api"
   project_root = local.project_root
   # forced dependencies 
   namespaces_id = module.base.namespaces_release_id

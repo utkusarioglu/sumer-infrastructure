@@ -1,4 +1,4 @@
 locals {
-  namespace = "services"
+  namespace = "api"
   image_tag= "tf"
 }

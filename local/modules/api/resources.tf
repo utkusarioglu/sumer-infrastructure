@@ -1,3 +1,10 @@
+resource "helm_release" "ingress" {
+  name = "ingress"
+  chart = "${var.project_root}/ingress"
+  namespace = local.namespace
+  dependency_update = true
+}
+
 resource "helm_release" "ethereum_dispatcher" {
   name = "ethereum-dispatcher"
   chart = "${var.project_root}/ethereum-dispatcher/helm"

@@ -1,7 +1,7 @@
 resource "helm_release" "grafana" {
   name = "grafana"
   chart = "${var.project_root}/grafana"
-  namespace = "services"
+  namespace = "api"
   dependency_update = true
   cleanup_on_fail = true
 }
