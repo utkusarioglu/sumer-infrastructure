@@ -1,15 +1,9 @@
 resource "helm_release" "grafana" {
   name = "grafana"
-  chart = "grafana"
-  repository = "https://grafana.github.io/helm-charts"
-  version = "6.20.3"
-  namespace = local.namespace
+  chart = "${var.project_root}/grafana"
+  namespace = "services"
   dependency_update = true
-
-  set {
-    name = "service.port"
-    value = 9000
-  }
+  cleanup_on_fail = true
 }
 
 resource "helm_release" "prometheus" {
